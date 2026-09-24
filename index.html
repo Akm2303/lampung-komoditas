@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lampung Commodity Hub | Catalog Komoditas Lampung</title>
+<meta name="description" content="Platform katalog digital komoditas unggulan Provinsi Lampung: kopi, pisang, jagung, singkong, kelapa, lada, coklat.">
+<meta name="theme-color" content="#166534">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/logo/icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      brand: { 50:'#f0fdf4',100:'#dcfce7',700:'#15803d',800:'#166534',900:'#14532d',950:'#052e16' },
+      gold:  { 300:'#fcd34d',400:'#fbbf24',500:'#f59e0b',600:'#d97706' },
+      earth: { 100:'#f5f0e8',700:'#78350f' }
+    },
+    fontFamily:{ sans:['Inter','sans-serif'], display:['Poppins','sans-serif'] },
+    boxShadow:{ soft:'0 6px 24px -8px rgba(15,23,42,.12)' }
+  }}
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-white font-sans text-slate-700 antialiased">
+
+<!-- ============ NAVBAR ============ -->
+<header class="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
+  <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-800 text-gold-400"><i class="fa-solid fa-seedling"></i></span>
+      <span class="font-display text-sm font-bold text-brand-900 sm:text-base">Lampung Commodity Hub</span>
+    </a>
+    <button id="navToggle" class="grid h-10 w-10 place-items-center rounded-lg hover:bg-slate-100 lg:hidden" aria-label="Menu">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+    <ul id="navMenu" class="absolute left-0 right-0 top-full hidden flex-col gap-1 border-b border-slate-100 bg-white p-4 shadow-soft lg:static lg:flex lg:flex-row lg:items-center lg:border-0 lg:bg-transparent lg:p-0 lg:shadow-none">
+      <li><a class="nav-link" href="index.html">Home</a></li>
+      <li><a class="nav-link" href="about.html">Tentang</a></li>
+      <li><a class="nav-link" href="commodities.html">Komoditas</a></li>
+      <li><a class="nav-link" href="contact.html">Contact</a></li>
+      <li id="navAuth" class="mt-2 lg:mt-0 lg:ml-2 flex gap-2">
+        <!-- diisi JS -->
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="relative isolate overflow-hidden">
+  <svg class="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#052e16"/><stop offset="100%" stop-color="#14532d"/>
+      </linearGradient>
+      <linearGradient id="hill" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#2a7d46"/><stop offset="100%" stop-color="#1b5e33"/>
+      </linearGradient>
+    </defs>
+    <rect width="1440" height="720" fill="url(#sky)"/>
+    <circle cx="1150" cy="150" r="130" fill="#fbbf24" opacity="0.12"/>
+    <path d="M0 520 L160 450 L360 530 L560 440 L780 540 L980 460 L1180 540 L1440 470 L1440 720 L0 720 Z" fill="url(#hill)"/>
+  </svg>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-r from-brand-950/90 via-brand-900/60 to-transparent"></div>
+
+  <div class="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-28 lg:px-8 lg:py-36">
+    <div class="max-w-3xl">
+      <span class="inline-flex items-center gap-2 rounded-full border border-gold-400/40 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-gold-300 backdrop-blur">
+        <i class="fa-solid fa-seedling"></i> Provinsi Lampung
+      </span>
+      <h1 class="mt-6 font-display text-4xl font-bold leading-tight text-white sm:text-5xl lg:text-6xl">
+        Potensi Komoditas Unggulan Lampung
+      </h1>
+      <p class="mt-5 max-w-2xl text-base text-brand-50/90 sm:text-lg">
+        Temukan berbagai komoditas unggulan Lampung dari petani, pemilik lahan, hingga eksportir.
+      </p>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="commodities.html" class="inline-flex items-center justify-center gap-2 rounded-xl bg-gold-500 px-7 py-3.5 text-sm font-semibold text-brand-950 shadow-lg transition hover:bg-gold-400">
+          <i class="fa-solid fa-box-open"></i> Lihat Komoditas
+        </a>
+        <a href="register.html" class="inline-flex items-center justify-center gap-2 rounded-xl border border-white/30 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur transition hover:bg-white/20">
+          <i class="fa-solid fa-user-plus"></i> Daftar Sebagai User
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATISTIK ============ -->
+<section class="relative z-10 -mt-10 sm:-mt-14">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div id="statsGrid" class="grid grid-cols-2 gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-slate-100 sm:gap-4 sm:p-6 lg:grid-cols-4">
+      <!-- diisi JS -->
+    </div>
+  </div>
+</section>
+
+<!-- ============ KOMODITAS UNGGULAN ============ -->
+<section class="bg-brand-50/50 py-16 sm:py-20">
+  <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+      <div>
+        <span class="text-xs font-bold uppercase tracking-widest text-brand-700">Katalog</span>
+        <h2 class="mt-3 font-display text-3xl font-bold text-slate-900 sm:text-4xl">Komoditas Unggulan</h2>
+      </div>
+      <a href="commodities.html" class="inline-flex w-fit items-center gap-2 rounded-xl border border-brand-700 px-5 py-3 text-sm font-semibold text-brand-800 hover:bg-brand-700 hover:text-white">
+        Lihat Semua <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+    <div id="featuredGrid" class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <p class="col-span-full text-center text-sm text-slate-400">Memuat komoditas…</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="mt-16 bg-brand-950 text-brand-50">
+  <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
+    <div class="lg:col-span-2">
+      <div class="flex items-center gap-2">
+        <span class="grid h-10 w-10 place-items-center rounded-xl bg-gold-500 text-brand-950"><i class="fa-solid fa-seedling"></i></span>
+        <span class="font-display text-lg font-bold text-white">Lampung Commodity Hub</span>
+      </div>
+      <p class="mt-4 max-w-md text-sm text-brand-100/80">
+        "Connecting Lampung Commodities to Indonesia and Global Markets."
+      </p>
+    </div>
+    <div>
+      <h3 class="font-display text-sm font-semibold uppercase tracking-wider text-gold-400">Menu</h3>
+      <ul class="mt-4 space-y-2 text-sm">
+        <li><a class="footer-link" href="index.html">Home</a></li>
+        <li><a class="footer-link" href="about.html">Tentang</a></li>
+        <li><a class="footer-link" href="commodities.html">Komoditas</a></li>
+        <li><a class="footer-link" href="contact.html">Contact</a></li>
+        <li><a class="footer-link" href="login.html">Login</a></li>
+        <li><a class="footer-link" href="register.html">Register</a></li>
+      </ul>
+    </div>
+    <div>
+      <h3 class="font-display text-sm font-semibold uppercase tracking-wider text-gold-400">Kontak</h3>
+      <ul id="footerContact" class="mt-4 space-y-2 text-sm text-brand-100/80">
+        <li>Memuat…</li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10 py-5 text-center text-xs text-brand-100/60">
+    &copy; 2026 Lampung Commodity Hub. All Rights Reserved.
+  </div>
+</footer>
+
+<script type="module">
+  import { auth } from "./js/firebase-init.js";
+  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+  import { getUserProfile } from "./js/auth.js";
+  import { fetchCommodities, fetchCompany } from "./js/data.js";
+
+  /* -------- Navigasi: render tombol login/dashboard -------- */
+  onAuthStateChanged(auth, async (user) => {
+    const box = document.getElementById("navAuth");
+    if (!user) {
+      box.innerHTML = `
+        <a class="btn-outline" href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+        <a class="btn-primary" href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>`;
+    } else {
+      const p = await getUserProfile(user.uid);
+      const dash = p?.role === "admin" ? "dashboard/admin.html"
+                 : p?.role === "superadmin" ? "dashboard/superadmin.html"
+                 : "dashboard/user.html";
+      box.innerHTML = `
+        <a class="btn-outline" href="${dash}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+        <button id="btnLogout" class="btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>`;
+      document.getElementById("btnLogout").onclick = async () => {
+        const { logoutUser } = await import("./js/auth.js");
+        await logoutUser();
+        location.reload();
+      };
+    }
+  });
+
+  /* -------- Statistik dummy (mudah diubah) -------- */
+  const stats = [
+    { label: "Komoditas",      value: "7+",   icon: "fa-seedling",   color: "bg-brand-50 text-brand-700" },
+    { label: "Petani",         value: "100+", icon: "fa-tractor",    color: "bg-gold-500/10 text-gold-600" },
+    { label: "Pemilik Lahan",  value: "50+",  icon: "fa-map",        color: "bg-earth-100 text-earth-700" },
+    { label: "Exportir",       value: "20+",  icon: "fa-ship",       color: "bg-brand-50 text-brand-700" },
+  ];
+  document.getElementById("statsGrid").innerHTML = stats.map(s => `
+    <div class="rounded-2xl bg-white p-4 text-center ring-1 ring-slate-100 sm:p-6">
+      <div class="mx-auto grid h-10 w-10 place-items-center rounded-xl ${s.color}"><i class="fa-solid ${s.icon}"></i></div>
+      <p class="mt-3 font-display text-2xl font-bold text-slate-900 sm:text-3xl">${s.value}</p>
+      <p class="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">${s.label}</p>
+    </div>`).join("");
+
+  /* -------- Featured komoditas dari Firestore -------- */
+  try {
+    const list = (await fetchCommodities()).slice(0, 7);
+    document.getElementById("featuredGrid").innerHTML = list.length ? list.map(c => `
+      <article class="card-hover overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100">
+        <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+          <img src="${c.image}" alt="Komoditas ${c.name}" loading="lazy"
+               class="h-full w-full object-cover" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 3%22><rect width=%224%22 height=%223%22 fill=%22%23dcfce7%22/></svg>'">
+        </div>
+        <div class="p-5">
+          <span class="badge badge-green">${c.category}</span>
+          <h3 class="mt-3 font-display text-lg font-semibold text-slate-900">${c.name}</h3>
+          <p class="mt-1 text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-brand-700"></i>${c.origin}</p>
+          <p class="mt-3 line-clamp-2 text-sm text-slate-600">${c.description ?? ""}</p>
+          <a href="commodity-detail.html?slug=${c.slug}"
+             class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900">
+            Lihat Detail <i class="fa-solid fa-arrow-right text-xs"></i>
+          </a>
+        </div>
+      </article>`).join("")
+      : `<p class="col-span-full text-center text-sm text-slate-400">Belum ada data komoditas.</p>`;
+  } catch (e) {
+    document.getElementById("featuredGrid").innerHTML =
+      `<p class="col-span-full text-center text-sm text-rose-500">Gagal memuat data: ${e.message}</p>`;
+  }
+
+  /* -------- Footer kontak -------- */
+  try {
+    const c = await fetchCompany();
+    document.getElementById("footerContact").innerHTML = `
+      <li><i class="fa-solid fa-location-dot mr-2 text-gold-400"></i>${c.address ?? "-"}</li>
+      <li><i class="fa-solid fa-phone mr-2 text-gold-400"></i>${c.phone ?? "-"}</li>
+      <li><i class="fa-regular fa-envelope mr-2 text-gold-400"></i>${c.email ?? "-"}</li>`;
+  } catch {}
+</script>
+
+<script src="js/app.js"></script>
+</body>
+</html>

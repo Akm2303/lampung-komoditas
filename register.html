@@ -1,0 +1,108 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Register | Lampung Commodity Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head><body class="min-h-screen bg-brand-50/40">
+<div class="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
+  <a href="index.html" class="mb-8 flex items-center justify-center gap-2">
+    <span class="grid h-11 w-11 place-items-center rounded-xl bg-brand-800 text-gold-400"><i class="fa-solid fa-seedling"></i></span>
+    <span class="font-display text-lg font-bold text-brand-900">Lampung Commodity Hub</span>
+  </a>
+
+  <div class="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-slate-100 sm:p-8">
+    <h1 class="font-display text-2xl font-bold text-slate-900">Daftar Akun Baru</h1>
+    <p class="mt-1 text-sm text-slate-500">Bergabung untuk memperkenalkan komoditas Anda.</p>
+
+    <form id="registerForm" class="mt-6 space-y-4">
+      <div>
+        <label class="form-label" for="name">Nama Lengkap</label>
+        <input id="name" required class="form-input" placeholder="Nama Anda">
+      </div>
+      <div>
+        <label class="form-label" for="phone">Nomor Telepon</label>
+        <input id="phone" type="tel" required class="form-input" placeholder="08xxxxxxxxxx">
+      </div>
+      <div>
+        <label class="form-label" for="email">Email</label>
+        <input id="email" type="email" required class="form-input" placeholder="nama@email.com">
+      </div>
+      <div>
+        <label class="form-label" for="password">Password</label>
+        <input id="password" type="password" required minlength="6" class="form-input" placeholder="Min. 6 karakter">
+      </div>
+      <div>
+        <label class="form-label" for="confirm">Konfirmasi Password</label>
+        <input id="confirm" type="password" required class="form-input" placeholder="Ulangi password">
+      </div>
+      <div>
+        <label class="form-label" for="userType">Jenis User</label>
+        <select id="userType" required class="form-input">
+          <option value="">-- Pilih --</option>
+          <option>Petani</option>
+          <option>Exportir</option>
+          <option>Pemilik Lahan</option>
+        </select>
+      </div>
+      <label class="flex items-start gap-2 text-xs text-slate-600">
+        <input id="agree" type="checkbox" required class="mt-0.5">
+        <span>Saya menyetujui <a href="#" class="text-brand-800 underline">Terms &amp; Privacy Policy</a></span>
+      </label>
+      <div id="msg" class="hidden rounded-xl px-4 py-3 text-sm"></div>
+      <button type="submit" id="btnReg"
+        class="w-full rounded-xl bg-brand-800 py-3 text-sm font-semibold text-white hover:bg-brand-900 disabled:opacity-60">
+        <i class="fa-solid fa-user-plus mr-1"></i> Daftar
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-slate-500">
+      Sudah punya akun? <a href="login.html" class="font-semibold text-brand-800 hover:underline">Login</a>
+    </p>
+  </div>
+</div>
+
+<script type="module">
+import { registerUser } from "./js/auth.js";
+
+const form = document.getElementById("registerForm");
+const msg  = document.getElementById("msg");
+const btn  = document.getElementById("btnReg");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  msg.classList.add("hidden");
+  const pwd = document.getElementById("password").value;
+  const konfirm = document.getElementById("confirm").value;
+  if (pwd !== konfirm) {
+    msg.className = "rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700";
+    msg.textContent = "Password dan konfirmasi tidak sama.";
+    msg.classList.remove("hidden");
+    return;
+  }
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Memproses…';
+  try {
+    await registerUser({
+      name: document.getElementById("name").value.trim(),
+      phone: document.getElementById("phone").value.trim(),
+      email: document.getElementById("email").value.trim(),
+      password: pwd,
+      userType: document.getElementById("userType").value,
+    });
+    msg.className = "rounded-xl bg-green-50 px-4 py-3 text-sm text-green-800";
+    msg.textContent = "Registrasi berhasil. Silakan login.";
+    msg.classList.remove("hidden");
+    form.reset();
+    setTimeout(() => location.href = "login.html", 1500);
+  } catch (err) {
+    msg.className = "rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700";
+    msg.textContent = err.message.replace("Firebase: ", "");
+    msg.classList.remove("hidden");
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-user-plus mr-1"></i> Daftar';
+  }
+});
+</script>
+</body></html>

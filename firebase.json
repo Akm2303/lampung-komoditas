@@ -1,0 +1,17 @@
+// firebase.json
+{
+  "hosting": {
+    "public": ".",
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+    "rewrites": [
+      { "source": "**", "destination": "/index.html" }
+    ],
+    "headers": [
+      { "source": "**/*.@(js|css|png|jpg|svg|webmanifest)",
+        "headers": [{ "key": "Cache-Control", "value": "public, max-age=604800" }] }
+    ]
+  },
+  "firestore": {
+    "rules": "firestore.rules"
+  }
+}

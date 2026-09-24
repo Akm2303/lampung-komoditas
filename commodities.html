@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="id" class="scroll-smooth"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Komoditas Lampung | Lampung Commodity Hub</title>
+<meta name="description" content="Daftar komoditas unggulan Provinsi Lampung.">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head><body class="bg-white">
+<header class="sticky top-0 z-40 border-b border-slate-100 bg-white/90 backdrop-blur">
+  <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+    <a href="index.html" class="flex items-center gap-2">
+      <span class="grid h-10 w-10 place-items-center rounded-xl bg-brand-800 text-gold-400"><i class="fa-solid fa-seedling"></i></span>
+      <span class="font-display text-sm font-bold text-brand-900 sm:text-base">Lampung Commodity Hub</span>
+    </a>
+    <a href="index.html" class="text-sm text-brand-800 hover:underline"><i class="fa-solid fa-arrow-left mr-1"></i>Beranda</a>
+  </div>
+</header>
+
+<main class="mx-auto max-w-7xl px-4 py-10 sm:px-6 lg:px-8">
+  <h1 class="font-display text-3xl font-bold text-slate-900 sm:text-4xl">Komoditas Lampung</h1>
+  <p class="mt-2 text-slate-600">7 komoditas unggulan dari berbagai kabupaten/kota di Provinsi Lampung.</p>
+
+  <!-- Filter -->
+  <div class="mt-8 grid gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-slate-100 sm:grid-cols-2 lg:grid-cols-4">
+    <div class="relative sm:col-span-2 lg:col-span-2">
+      <i class="fa-solid fa-magnifying-glass pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-slate-400"></i>
+      <input id="search" class="form-input pl-11" placeholder="Search komoditas...">
+    </div>
+    <select id="filterCategory" class="form-input">
+      <option value="">Semua Kategori</option>
+      <option>Perkebunan</option>
+      <option>Pertanian</option>
+      <option>Hortikultura</option>
+    </select>
+    <select id="filterRegion" class="form-input">
+      <option value="">Semua Wilayah</option>
+      <!-- diisi JS -->
+    </select>
+  </div>
+
+  <p id="resultInfo" class="mt-4 text-sm text-slate-500"></p>
+
+  <div id="grid" class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+  <div id="empty" class="hidden py-16 text-center">
+    <i class="fa-solid fa-box-open text-5xl text-slate-300"></i>
+    <p class="mt-4 font-semibold text-slate-700">Tidak ada komoditas ditemukan</p>
+    <p class="text-sm text-slate-500">Coba ubah kata kunci atau filter.</p>
+  </div>
+</main>
+
+<script type="module">
+import { fetchCommodities } from "./js/data.js";
+
+const REGIONS = ["Lampung Barat","Tanggamus","Way Kanan","Lampung Utara","Lampung Tengah",
+  "Lampung Timur","Lampung Selatan","Pesawaran","Pringsewu","Pesisir Barat",
+  "Tulang Bawang","Mesuji","Tulang Bawang Barat","Bandar Lampung","Metro"];
+
+const regionSel = document.getElementById("filterRegion");
+REGIONS.forEach(r => regionSel.insertAdjacentHTML("beforeend", `<option>${r}</option>`));
+
+const grid = document.getElementById("grid");
+const empty = document.getElementById("empty");
+const info = document.getElementById("resultInfo");
+const search = document.getElementById("search");
+const catSel = document.getElementById("filterCategory");
+
+let ALL = [];
+
+function render(list) {
+  info.textContent = `Menampilkan ${list.length} komoditas`;
+  empty.classList.toggle("hidden", list.length > 0);
+  grid.innerHTML = list.map(c => `
+    <article class="card-hover overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100">
+      <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+        <img src="${c.image}" alt="Komoditas ${c.name}" loading="lazy" class="h-full w-full object-cover">
+      </div>
+      <div class="p-5">
+        <span class="badge badge-green">${c.category}</span>
+        <h3 class="mt-3 font-display text-lg font-semibold text-slate-900">${c.name}</h3>
+        <p class="mt-1 text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-brand-700"></i>${c.origin}</p>
+        <p class="mt-3 line-clamp-2 text-sm text-slate-600">${c.description ?? ""}</p>
+        <a href="commodity-detail.html?slug=${c.slug}"
+           class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900">
+          Lihat Detail <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </article>`).join("");
+}
+
+function applyFilter() {
+  const q = search.value.trim().toLowerCase();
+  const cat = catSel.value;
+  const reg = regionSel.value;
+  const list = ALL.filter(c => {
+    const matchQ = !q || c.name.toLowerCase().includes(q) || (c.description||"").toLowerCase().includes(q);
+    const matchC = !cat || c.category === cat;
+    const matchR = !reg || (c.productionAreas || []).includes(reg) || c.origin === reg;
+    return matchQ && matchC && matchR;
+  });
+  render(list);
+}
+
+search.addEventListener("input", applyFilter);
+catSel.addEventListener("change", applyFilter);
+regionSel.addEventListener("change", applyFilter);
+
+try {
+  ALL = await fetchCommodities();
+  render(ALL);
+} catch (e) {
+  grid.innerHTML = `<p class="col-span-full text-center text-rose-500 text-sm">${e.message}</p>`;
+}
+</script>
+</body></html>

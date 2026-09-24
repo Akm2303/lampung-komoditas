@@ -1,0 +1,61 @@
+<!DOCTYPE html><html><body>
+<script type="module">
+import { db } from "./js/firebase-init.js";
+import { doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const commodities = [
+  { slug:"pisang",   name:"Pisang",   category:"Hortikultura", origin:"Lampung Selatan",
+    productionAreas:["Lampung Selatan","Lampung Timur","Pesawaran"],
+    description:"Pisang unggulan Lampung dengan kualitas rasa manis.",
+    image:"assets/images/pisang.jpg" },
+  { slug:"kopi",     name:"Kopi",     category:"Perkebunan", origin:"Lampung Barat",
+    productionAreas:["Lampung Barat","Tanggamus","Way Kanan"],
+    description:"Komoditas kopi merupakan salah satu komoditas perkebunan penting di Provinsi Lampung.",
+    image:"assets/images/kopi.jpg" },
+  { slug:"coklat",   name:"Coklat",   category:"Perkebunan", origin:"Lampung Timur",
+    productionAreas:["Lampung Timur","Lampung Selatan","Pesawaran"],
+    description:"Biji kakao Lampung dengan kualitas fermentasi baik.",
+    image:"assets/images/coklat.jpg" },
+  { slug:"jagung",   name:"Jagung",   category:"Pertanian", origin:"Lampung Selatan",
+    productionAreas:["Lampung Selatan","Lampung Timur","Lampung Tengah"],
+    description:"Jagung Lampung pemasok utama pakan nasional.",
+    image:"assets/images/jagung.jpg" },
+  { slug:"singkong", name:"Singkong", category:"Pertanian", origin:"Lampung Tengah",
+    productionAreas:["Lampung Tengah","Lampung Timur","Tulang Bawang"],
+    description:"Singkong Lampung kadar pati tinggi.",
+    image:"assets/images/singkong.jpg" },
+  { slug:"kelapa",   name:"Kelapa",   category:"Perkebunan", origin:"Pesisir Barat",
+    productionAreas:["Pesisir Barat","Lampung Selatan","Tanggamus"],
+    description:"Kelapa Lampung dengan kopra berkualitas.",
+    image:"assets/images/kelapa.jpg" },
+  { slug:"lada",     name:"Lada",     category:"Perkebunan", origin:"Lampung Utara",
+    productionAreas:["Lampung Utara","Way Kanan","Tanggamus"],
+    description:"Lada hitam dan putih Lampung dengan aroma kuat.",
+    image:"assets/images/lada.jpg" },
+];
+
+for (const c of commodities) {
+  await setDoc(doc(db, "commodities", c.slug), c);
+}
+
+await setDoc(doc(db, "settings", "company"), {
+  name:"Lampung Commodity Hub",
+  address:"Bandar Lampung, Lampung, Indonesia",
+  phone:"+62 xxx-xxxx-xxxx",
+  email:"info@lampungcommodityhub.com",
+  whatsapp:"+62 xxx-xxxx-xxxx",
+});
+
+await setDoc(doc(db, "settings", "owner"), {
+  name:"Yusri Akmal",
+  position:"Founder & CEO",
+  bio:"Berpengalaman di bidang agribisnis dan perdagangan komoditas.",
+  photo:"assets/images/owner.jpg",
+  linkedin:"#",
+  email:"yusri@lampungcommodityhub.com",
+  whatsapp:"+62 xxx-xxxx-xxxx",
+});
+
+alert("Seed selesai!");
+</script>
+</body></html>

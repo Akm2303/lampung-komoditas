@@ -1,0 +1,78 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Admin Dashboard | Lampung Commodity Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head><body class="bg-slate-50">
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <header class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-slate-100">
+    <div>
+      <h1 class="font-display text-xl font-bold text-slate-900">Admin Dashboard</h1>
+      <p class="text-xs text-slate-500" id="whoami">Memuat…</p>
+    </div>
+    <button id="btnLogout" class="rounded-xl bg-brand-800 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900">
+      <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+    </button>
+  </header>
+
+  <section class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Total User</p><p id="statUsers" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Petani</p><p id="statPetani" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Exportir</p><p id="statExp" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Pemilik Lahan</p><p id="statLahan" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 col-span-2 sm:col-span-1"><p class="text-xs uppercase text-slate-500">Komoditas</p><p id="statCom" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+  </section>
+
+  <section class="mt-8 rounded-2xl bg-white shadow-soft ring-1 ring-slate-100">
+    <div class="flex items-center justify-between border-b border-slate-100 p-4">
+      <h2 class="font-display text-lg font-semibold text-slate-900">User Management</h2>
+      <button class="rounded-xl bg-brand-800 px-4 py-2 text-xs font-semibold text-white hover:bg-brand-900" onclick="alert('Modal create user (prototype)')">
+        <i class="fa-solid fa-plus mr-1"></i>Tambah
+      </button>
+    </div>
+    <div class="table-wrap p-2">
+      <table>
+        <thead><tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead>
+        <tbody id="userTable"><tr><td colspan="6" class="text-center text-slate-400 py-6">Memuat…</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import { requireRole, logoutUser } from "../js/auth.js";
+import { fetchUsers, fetchCommodities } from "../js/data.js";
+
+requireRole(["admin","superadmin"], async (user, profile) => {
+  document.getElementById("whoami").textContent = `${profile.name} · ${profile.role}`;
+
+  const users = await fetchUsers();
+  const commodities = await fetchCommodities();
+
+  document.getElementById("statUsers").textContent  = users.length;
+  document.getElementById("statPetani").textContent = users.filter(u => u.userType === "Petani").length;
+  document.getElementById("statExp").textContent    = users.filter(u => u.userType === "Exportir").length;
+  document.getElementById("statLahan").textContent  = users.filter(u => u.userType === "Pemilik Lahan").length;
+  document.getElementById("statCom").textContent    = commodities.length;
+
+  document.getElementById("userTable").innerHTML = users.map(u => `
+    <tr>
+      <td class="font-medium text-slate-800">${u.name ?? "-"}</td>
+      <td>${u.email ?? "-"}</td>
+      <td>${u.phone ?? "-"}</td>
+      <td><span class="badge ${u.role === 'superadmin' ? 'badge-gold' : u.role === 'admin' ? 'badge-green' : 'badge-gray'}">${u.role}</span></td>
+      <td><span class="badge badge-green">${u.status ?? "active"}</span></td>
+      <td>
+        <button class="text-brand-700 hover:underline mr-3" onclick="alert('Edit (prototype)')">Edit</button>
+        <button class="text-rose-600 hover:underline" onclick="alert('Delete (prototype)')">Hapus</button>
+      </td>
+    </tr>`).join("");
+});
+
+document.getElementById("btnLogout").onclick = async () => {
+  await logoutUser();
+  location.href = "../login.html";
+};
+</script>
+</body></html>

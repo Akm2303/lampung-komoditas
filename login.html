@@ -1,0 +1,74 @@
+<!DOCTYPE html><html lang="id"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Login | Lampung Commodity Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head><body class="min-h-screen bg-brand-50/40">
+<div class="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
+  <a href="index.html" class="mb-8 flex items-center justify-center gap-2">
+    <span class="grid h-11 w-11 place-items-center rounded-xl bg-brand-800 text-gold-400"><i class="fa-solid fa-seedling"></i></span>
+    <span class="font-display text-lg font-bold text-brand-900">Lampung Commodity Hub</span>
+  </a>
+
+  <div class="rounded-3xl bg-white p-6 shadow-soft ring-1 ring-slate-100 sm:p-8">
+    <h1 class="font-display text-2xl font-bold text-slate-900">Selamat Datang</h1>
+    <p class="mt-1 text-sm text-slate-500">Masuk untuk mengakses dashboard.</p>
+
+    <form id="loginForm" class="mt-6 space-y-4">
+      <div>
+        <label class="form-label" for="email">Email</label>
+        <input id="email" type="email" required class="form-input" placeholder="nama@email.com">
+      </div>
+      <div>
+        <label class="form-label" for="password">Password</label>
+        <input id="password" type="password" required class="form-input" placeholder="••••••••">
+      </div>
+      <div id="msg" class="hidden rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700"></div>
+      <button type="submit" id="btnLogin"
+        class="w-full rounded-xl bg-brand-800 py-3 text-sm font-semibold text-white hover:bg-brand-900 disabled:opacity-60">
+        <i class="fa-solid fa-right-to-bracket mr-1"></i> Login
+      </button>
+    </form>
+
+    <p class="mt-6 text-center text-sm text-slate-500">
+      Belum memiliki akun? <a href="register.html" class="font-semibold text-brand-800 hover:underline">Register</a>
+    </p>
+  </div>
+
+  <p class="mt-6 text-center text-xs text-slate-400">
+    Demo: <code>admin@demo.com</code> / <code>password123</code>
+  </p>
+</div>
+
+<script type="module">
+import { loginUser, getUserProfile } from "./js/auth.js";
+import { auth } from "./js/firebase-init.js";
+
+const form = document.getElementById("loginForm");
+const msg  = document.getElementById("msg");
+const btn  = document.getElementById("btnLogin");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  msg.classList.add("hidden");
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-1"></i> Memproses…';
+  try {
+    const { user } = await loginUser(
+      document.getElementById("email").value.trim(),
+      document.getElementById("password").value
+    );
+    const p = await getUserProfile(user.uid);
+    location.href = p?.role === "admin" ? "dashboard/admin.html"
+                  : p?.role === "superadmin" ? "dashboard/superadmin.html"
+                  : "dashboard/user.html";
+  } catch (err) {
+    msg.textContent = err.message.replace("Firebase: ", "");
+    msg.classList.remove("hidden");
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fa-solid fa-right-to-bracket mr-1"></i> Login';
+  }
+});
+</script>
+</body></html>

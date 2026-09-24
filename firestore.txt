@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper
+    function isSignedIn()  { return request.auth != null; }
+    function userDoc()     { return get(/databases/$(database)/documents/users/$(request.auth.uid)).data; }
+    function role()        { return isSignedIn() ? userDoc().role : ''; }
+    function isAdmin()     { return role() in ['admin','superadmin']; }
+    function isSuperadmin(){ return role() == 'superadmin'; }
+
+    // USERS
+    match /users/{uid} {
+      allow read: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow create: if isSignedIn() && request.auth.uid == uid;
+      allow update: if isSignedIn() && (request.auth.uid == uid || isAdmin());
+      allow delete: if isSuperadmin();
+    }
+
+    // COMMODITIES
+    match /commodities/{id} {
+      allow read: if true;                          // publik
+      allow write: if isAdmin();
+    }
+
+    // SETTINGS (company, owner)
+    match /settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+  }
+}
