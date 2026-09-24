@@ -1,10 +1,24 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Login | Lampung Commodity Hub</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head><body class="min-h-screen bg-brand-50/40">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { brand: { 50:'#f0fdf4',800:'#166534',900:'#14532d' }, gold: { 400:'#fbbf24' } },
+    fontFamily:{ sans:['Inter','sans-serif'], display:['Poppins','sans-serif'] },
+    boxShadow:{ soft:'0 6px 24px -8px rgba(15,23,42,.12)' }
+  }}
+}
+</script>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen bg-brand-50/40">
 <div class="mx-auto flex min-h-screen max-w-md flex-col justify-center px-4 py-10">
   <a href="index.html" class="mb-8 flex items-center justify-center gap-2">
     <span class="grid h-11 w-11 place-items-center rounded-xl bg-brand-800 text-gold-400"><i class="fa-solid fa-seedling"></i></span>
@@ -43,7 +57,6 @@
 
 <script type="module">
 import { loginUser, getUserProfile } from "./js/auth.js";
-import { auth } from "./js/firebase-init.js";
 
 const form = document.getElementById("loginForm");
 const msg  = document.getElementById("msg");
@@ -71,4 +84,5 @@ form.addEventListener("submit", async (e) => {
   }
 });
 </script>
-</body></html>
+</body>
+</html>

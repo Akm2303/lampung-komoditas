@@ -1,6 +1,6 @@
 import { db } from "./firebase-init.js";
 import {
-  collection, doc, getDocs, getDoc, addDoc, updateDoc, deleteDoc,
+  collection, doc, getDocs, getDoc, setDoc, addDoc, updateDoc, deleteDoc,
   query, where, orderBy, serverTimestamp,
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 

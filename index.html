@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="id" class="scroll-smooth">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Lampung Commodity Hub | Catalog Komoditas Lampung</title>
-<meta name="description" content="Platform katalog digital komoditas unggulan Provinsi Lampung: kopi, pisang, jagung, singkong, kelapa, lada, coklat.">
+<meta name="description" content="Platform katalog digital untuk mengenal komoditas unggulan Provinsi Lampung seperti kopi, pisang, jagung, singkong, kelapa, lada dan coklat.">
 <meta name="theme-color" content="#166534">
+<meta property="og:title" content="Lampung Commodity Hub | Catalog Komoditas Lampung">
+<meta property="og:description" content="Katalog digital komoditas unggulan Provinsi Lampung.">
+<meta property="og:type" content="website">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="assets/logo/icon-192.png">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
@@ -28,7 +31,6 @@ tailwind.config = {
 </head>
 <body class="bg-white font-sans text-slate-700 antialiased">
 
-<!-- ============ NAVBAR ============ -->
 <header class="sticky top-0 z-50 border-b border-slate-100 bg-white/90 backdrop-blur">
   <nav class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
     <a href="index.html" class="flex items-center gap-2">
@@ -43,16 +45,13 @@ tailwind.config = {
       <li><a class="nav-link" href="about.html">Tentang</a></li>
       <li><a class="nav-link" href="commodities.html">Komoditas</a></li>
       <li><a class="nav-link" href="contact.html">Contact</a></li>
-      <li id="navAuth" class="mt-2 lg:mt-0 lg:ml-2 flex gap-2">
-        <!-- diisi JS -->
-      </li>
+      <li id="navAuth" class="mt-2 flex gap-2 lg:mt-0 lg:ml-2"></li>
     </ul>
   </nav>
 </header>
 
-<!-- ============ HERO ============ -->
 <section class="relative isolate overflow-hidden">
-  <svg class="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice">
+  <svg class="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 1440 720" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
     <defs>
       <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="#052e16"/><stop offset="100%" stop-color="#14532d"/>
@@ -90,16 +89,12 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ STATISTIK ============ -->
 <section class="relative z-10 -mt-10 sm:-mt-14">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-    <div id="statsGrid" class="grid grid-cols-2 gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-slate-100 sm:gap-4 sm:p-6 lg:grid-cols-4">
-      <!-- diisi JS -->
-    </div>
+    <div id="statsGrid" class="grid grid-cols-2 gap-3 rounded-3xl bg-white p-4 shadow-soft ring-1 ring-slate-100 sm:gap-4 sm:p-6 lg:grid-cols-4"></div>
   </div>
 </section>
 
-<!-- ============ KOMODITAS UNGGULAN ============ -->
 <section class="bg-brand-50/50 py-16 sm:py-20">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
@@ -117,7 +112,6 @@ tailwind.config = {
   </div>
 </section>
 
-<!-- ============ FOOTER ============ -->
 <footer class="mt-16 bg-brand-950 text-brand-50">
   <div class="mx-auto grid max-w-7xl gap-10 px-4 py-14 sm:px-6 lg:grid-cols-4 lg:px-8">
     <div class="lg:col-span-2">
@@ -125,9 +119,7 @@ tailwind.config = {
         <span class="grid h-10 w-10 place-items-center rounded-xl bg-gold-500 text-brand-950"><i class="fa-solid fa-seedling"></i></span>
         <span class="font-display text-lg font-bold text-white">Lampung Commodity Hub</span>
       </div>
-      <p class="mt-4 max-w-md text-sm text-brand-100/80">
-        "Connecting Lampung Commodities to Indonesia and Global Markets."
-      </p>
+      <p class="mt-4 max-w-md text-sm text-brand-100/80">"Connecting Lampung Commodities to Indonesia and Global Markets."</p>
     </div>
     <div>
       <h3 class="font-display text-sm font-semibold uppercase tracking-wider text-gold-400">Menu</h3>
@@ -142,9 +134,7 @@ tailwind.config = {
     </div>
     <div>
       <h3 class="font-display text-sm font-semibold uppercase tracking-wider text-gold-400">Kontak</h3>
-      <ul id="footerContact" class="mt-4 space-y-2 text-sm text-brand-100/80">
-        <li>Memuat…</li>
-      </ul>
+      <ul id="footerContact" class="mt-4 space-y-2 text-sm text-brand-100/80"><li>Memuat…</li></ul>
     </div>
   </div>
   <div class="border-t border-white/10 py-5 text-center text-xs text-brand-100/60">
@@ -153,84 +143,77 @@ tailwind.config = {
 </footer>
 
 <script type="module">
-  import { auth } from "./js/firebase-init.js";
-  import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-  import { getUserProfile } from "./js/auth.js";
-  import { fetchCommodities, fetchCompany } from "./js/data.js";
+import { auth } from "./js/firebase-init.js";
+import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { getUserProfile, logoutUser } from "./js/auth.js";
+import { fetchCommodities, fetchCompany } from "./js/data.js";
 
-  /* -------- Navigasi: render tombol login/dashboard -------- */
-  onAuthStateChanged(auth, async (user) => {
-    const box = document.getElementById("navAuth");
-    if (!user) {
-      box.innerHTML = `
-        <a class="btn-outline" href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
-        <a class="btn-primary" href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>`;
-    } else {
-      const p = await getUserProfile(user.uid);
-      const dash = p?.role === "admin" ? "dashboard/admin.html"
-                 : p?.role === "superadmin" ? "dashboard/superadmin.html"
-                 : "dashboard/user.html";
-      box.innerHTML = `
-        <a class="btn-outline" href="${dash}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
-        <button id="btnLogout" class="btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>`;
-      document.getElementById("btnLogout").onclick = async () => {
-        const { logoutUser } = await import("./js/auth.js");
-        await logoutUser();
-        location.reload();
-      };
-    }
-  });
-
-  /* -------- Statistik dummy (mudah diubah) -------- */
-  const stats = [
-    { label: "Komoditas",      value: "7+",   icon: "fa-seedling",   color: "bg-brand-50 text-brand-700" },
-    { label: "Petani",         value: "100+", icon: "fa-tractor",    color: "bg-gold-500/10 text-gold-600" },
-    { label: "Pemilik Lahan",  value: "50+",  icon: "fa-map",        color: "bg-earth-100 text-earth-700" },
-    { label: "Exportir",       value: "20+",  icon: "fa-ship",       color: "bg-brand-50 text-brand-700" },
-  ];
-  document.getElementById("statsGrid").innerHTML = stats.map(s => `
-    <div class="rounded-2xl bg-white p-4 text-center ring-1 ring-slate-100 sm:p-6">
-      <div class="mx-auto grid h-10 w-10 place-items-center rounded-xl ${s.color}"><i class="fa-solid ${s.icon}"></i></div>
-      <p class="mt-3 font-display text-2xl font-bold text-slate-900 sm:text-3xl">${s.value}</p>
-      <p class="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">${s.label}</p>
-    </div>`).join("");
-
-  /* -------- Featured komoditas dari Firestore -------- */
-  try {
-    const list = (await fetchCommodities()).slice(0, 7);
-    document.getElementById("featuredGrid").innerHTML = list.length ? list.map(c => `
-      <article class="card-hover overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100">
-        <div class="aspect-[4/3] overflow-hidden bg-slate-100">
-          <img src="${c.image}" alt="Komoditas ${c.name}" loading="lazy"
-               class="h-full w-full object-cover" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 3%22><rect width=%224%22 height=%223%22 fill=%22%23dcfce7%22/></svg>'">
-        </div>
-        <div class="p-5">
-          <span class="badge badge-green">${c.category}</span>
-          <h3 class="mt-3 font-display text-lg font-semibold text-slate-900">${c.name}</h3>
-          <p class="mt-1 text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-brand-700"></i>${c.origin}</p>
-          <p class="mt-3 line-clamp-2 text-sm text-slate-600">${c.description ?? ""}</p>
-          <a href="commodity-detail.html?slug=${c.slug}"
-             class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900">
-            Lihat Detail <i class="fa-solid fa-arrow-right text-xs"></i>
-          </a>
-        </div>
-      </article>`).join("")
-      : `<p class="col-span-full text-center text-sm text-slate-400">Belum ada data komoditas.</p>`;
-  } catch (e) {
-    document.getElementById("featuredGrid").innerHTML =
-      `<p class="col-span-full text-center text-sm text-rose-500">Gagal memuat data: ${e.message}</p>`;
+onAuthStateChanged(auth, async (user) => {
+  const box = document.getElementById("navAuth");
+  if (!user) {
+    box.innerHTML = `
+      <a class="btn-outline" href="login.html"><i class="fa-solid fa-right-to-bracket"></i> Login</a>
+      <a class="btn-primary" href="register.html"><i class="fa-solid fa-user-plus"></i> Register</a>`;
+  } else {
+    const p = await getUserProfile(user.uid);
+    const dash = p?.role === "admin" ? "dashboard/admin.html"
+              : p?.role === "superadmin" ? "dashboard/superadmin.html"
+              : "dashboard/user.html";
+    box.innerHTML = `
+      <a class="btn-outline" href="${dash}"><i class="fa-solid fa-gauge-high"></i> Dashboard</a>
+      <button id="btnLogout" class="btn-primary"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>`;
+    document.getElementById("btnLogout").onclick = async () => {
+      await logoutUser();
+      location.reload();
+    };
   }
+});
 
-  /* -------- Footer kontak -------- */
-  try {
-    const c = await fetchCompany();
-    document.getElementById("footerContact").innerHTML = `
-      <li><i class="fa-solid fa-location-dot mr-2 text-gold-400"></i>${c.address ?? "-"}</li>
-      <li><i class="fa-solid fa-phone mr-2 text-gold-400"></i>${c.phone ?? "-"}</li>
-      <li><i class="fa-regular fa-envelope mr-2 text-gold-400"></i>${c.email ?? "-"}</li>`;
-  } catch {}
+const stats = [
+  { label: "Komoditas",     value: "7+",   icon: "fa-seedling", color: "bg-brand-50 text-brand-700" },
+  { label: "Petani",        value: "100+", icon: "fa-tractor",  color: "bg-gold-500/10 text-gold-600" },
+  { label: "Pemilik Lahan", value: "50+",  icon: "fa-map",      color: "bg-earth-100 text-earth-700" },
+  { label: "Exportir",      value: "20+",  icon: "fa-ship",     color: "bg-brand-50 text-brand-700" },
+];
+document.getElementById("statsGrid").innerHTML = stats.map(s => `
+  <div class="rounded-2xl bg-white p-4 text-center ring-1 ring-slate-100 sm:p-6">
+    <div class="mx-auto grid h-10 w-10 place-items-center rounded-xl ${s.color}"><i class="fa-solid ${s.icon}"></i></div>
+    <p class="mt-3 font-display text-2xl font-bold text-slate-900 sm:text-3xl">${s.value}</p>
+    <p class="mt-1 text-xs font-medium uppercase tracking-wider text-slate-500">${s.label}</p>
+  </div>`).join("");
+
+try {
+  const list = (await fetchCommodities()).slice(0, 7);
+  document.getElementById("featuredGrid").innerHTML = list.length ? list.map(c => `
+    <article class="card-hover overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100">
+      <div class="aspect-[4/3] overflow-hidden bg-slate-100">
+        <img src="${c.image}" alt="Komoditas ${c.name}" loading="lazy" class="h-full w-full object-cover"
+             onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 4 3%22><rect width=%224%22 height=%223%22 fill=%22%23dcfce7%22/></svg>'">
+      </div>
+      <div class="p-5">
+        <span class="badge badge-green">${c.category}</span>
+        <h3 class="mt-3 font-display text-lg font-semibold text-slate-900">${c.name}</h3>
+        <p class="mt-1 text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1 text-brand-700"></i>${c.origin}</p>
+        <p class="mt-3 line-clamp-2 text-sm text-slate-600">${c.description ?? ""}</p>
+        <a href="commodity-detail.html?slug=${c.slug}" class="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-800 hover:text-brand-900">
+          Lihat Detail <i class="fa-solid fa-arrow-right text-xs"></i>
+        </a>
+      </div>
+    </article>`).join("")
+    : `<p class="col-span-full text-center text-sm text-slate-400">Belum ada data komoditas.</p>`;
+} catch (e) {
+  document.getElementById("featuredGrid").innerHTML =
+    `<p class="col-span-full text-center text-sm text-rose-500">Gagal memuat data: ${e.message}</p>`;
+}
+
+try {
+  const c = await fetchCompany();
+  document.getElementById("footerContact").innerHTML = `
+    <li><i class="fa-solid fa-location-dot mr-2 text-gold-400"></i>${c.address ?? "-"}</li>
+    <li><i class="fa-solid fa-phone mr-2 text-gold-400"></i>${c.phone ?? "-"}</li>
+    <li><i class="fa-regular fa-envelope mr-2 text-gold-400"></i>${c.email ?? "-"}</li>`;
+} catch {}
 </script>
-
 <script src="js/app.js"></script>
 </body>
 </html>

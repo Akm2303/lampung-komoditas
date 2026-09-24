@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Superadmin Dashboard | Lampung Commodity Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { brand: { 50:'#f0fdf4',800:'#166534',900:'#14532d' } },
+    fontFamily:{ sans:['Inter','sans-serif'], display:['Poppins','sans-serif'] },
+    boxShadow:{ soft:'0 6px 24px -8px rgba(15,23,42,.12)' }
+  }}
+}
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-slate-50">
+<div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+  <header class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-slate-100">
+    <div>
+      <h1 class="font-display text-xl font-bold text-slate-900">Superadmin Dashboard</h1>
+      <p class="text-xs text-slate-500" id="whoami">Memuat…</p>
+    </div>
+    <button id="btnLogout" class="rounded-xl bg-brand-800 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-900">
+      <i class="fa-solid fa-right-from-bracket mr-1"></i> Logout
+    </button>
+  </header>
+
+  <section class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5">
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Total User</p><p id="s1" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Admin</p><p id="s2" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Petani</p><p id="s3" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Exportir</p><p id="s4" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="col-span-2 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 sm:col-span-1"><p class="text-xs uppercase text-slate-500">Komoditas</p><p id="s5" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+  </section>
+
+  <section class="mt-8 grid gap-4 md:grid-cols-2">
+    <div class="rounded-2xl bg-white shadow-soft ring-1 ring-slate-100">
+      <div class="border-b border-slate-100 p-4"><h2 class="font-display text-lg font-semibold text-slate-900">User Management</h2></div>
+      <div class="table-wrap p-2">
+        <table>
+          <thead><tr><th>Nama</th><th>Email</th><th>Role</th><th>Aksi</th></tr></thead>
+          <tbody id="userTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="rounded-2xl bg-white shadow-soft ring-1 ring-slate-100">
+      <div class="border-b border-slate-100 p-4"><h2 class="font-display text-lg font-semibold text-slate-900">Commodity Management</h2></div>
+      <div class="table-wrap p-2">
+        <table>
+          <thead><tr><th>Nama</th><th>Kategori</th><th>Asal</th><th>Aksi</th></tr></thead>
+          <tbody id="comTable"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script type="module">
+import { requireRole, logoutUser } from "../js/auth.js";
+import { fetchUsers, fetchCommodities } from "../js/data.js";
+
+requireRole(["superadmin"], async (user, profile) => {
+  document.getElementById("whoami").textContent = `${profile.name} · ${profile.role}`;
+
+  const [users, commodities] = await Promise.all([fetchUsers(), fetchCommodities()]);
+
+  document.getElementById("s1").textContent = users.length;
+  document.getElementById("s2").textContent = users.filter(u => u.role === "admin").length;
+  document.getElementById("s3").textContent = users.filter(u => u.userType === "Petani").length;
+  document.getElementById("s4").textContent = users.filter(u => u.userType === "Exportir").length;
+  document.getElementById("s5").textContent = commodities.length;
+
+  document.getElementById("userTable").innerHTML = users.map(u => `
+    <tr>
+      <td class="font-medium">${u.name ?? "-"}</td>
+      <td class="text-slate-500">${u.email ?? "-"}</td>
+      <td><span class="badge ${u.role === 'superadmin' ? 'badge-gold' : u.role === 'admin' ? 'badge-green' : 'badge-gray'}">${u.role}</span></td>
+      <td>
+        <button class="text-brand-700 hover:underline mr-2" onclick="alert('Edit role (prototype)')">Edit</button>
+        <button class="text-rose-600 hover:underline" onclick="alert('Hapus (prototype)')">Hapus</button>
+      </td>
+    </tr>`).join("");
+
+  document.getElementById("comTable").innerHTML = commodities.map(c => `
+    <tr>
+      <td class="font-medium">${c.name}</td>
+      <td>${c.category}</td>
+      <td class="text-slate-500">${c.origin}</td>
+      <td>
+        <button class="text-brand-700 hover:underline mr-2" onclick="alert('Edit komoditas (prototype)')">Edit</button>
+        <button class="text-rose-600 hover:underline" onclick="alert('Hapus komoditas (prototype)')">Hapus</button>
+      </td>
+    </tr>`).join("");
+});
+
+document.getElementById("btnLogout").onclick = async () => {
+  await logoutUser();
+  location.href = "../login.html";
+};
+</script>
+</body>
+</html>

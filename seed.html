@@ -1,41 +1,118 @@
-<!DOCTYPE html><html><body>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Seeding Firestore</title>
+<style>body{font-family:system-ui;padding:24px;max-width:800px;margin:auto}pre{background:#f1f5f9;padding:16px;border-radius:8px;white-space:pre-wrap}</style>
+</head>
+<body>
+<h1>🌱 Seeding Firestore</h1>
+<p>Pastikan Anda sudah login sebagai superadmin.</p>
+<pre id="log">Memulai…</pre>
+
 <script type="module">
 import { db } from "./js/firebase-init.js";
-import { doc, setDoc, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+const log = (m) => document.getElementById('log').textContent += "\n" + m;
 
 const commodities = [
-  { slug:"pisang",   name:"Pisang",   category:"Hortikultura", origin:"Lampung Selatan",
+  { id:"pisang",   name:"Pisang",   category:"Hortikultura", origin:"Lampung Selatan",
+    slug:"pisang",
     productionAreas:["Lampung Selatan","Lampung Timur","Pesawaran"],
     description:"Pisang unggulan Lampung dengan kualitas rasa manis.",
-    image:"assets/images/pisang.jpg" },
-  { slug:"kopi",     name:"Kopi",     category:"Perkebunan", origin:"Lampung Barat",
+    longDescription:"Pisang merupakan komoditas hortikultura andalan Provinsi Lampung.",
+    type:"Cavendish, Mas, Raja, Kepok",
+    harvestSeason:"Sepanjang tahun (puncak: Maret–Agustus)",
+    availability:"Tersedia sepanjang tahun",
+    marketPotential:"Pasar domestik, ritel modern, dan ekspor",
+    exportStatus:"Berpotensi ekspor",
+    image:"assets/images/pisang.jpg",
+    gallery:["assets/images/pisang.jpg"] },
+
+  { id:"kopi",     name:"Kopi",     category:"Perkebunan", origin:"Lampung Barat",
+    slug:"kopi",
     productionAreas:["Lampung Barat","Tanggamus","Way Kanan"],
-    description:"Komoditas kopi merupakan salah satu komoditas perkebunan penting di Provinsi Lampung.",
-    image:"assets/images/kopi.jpg" },
-  { slug:"coklat",   name:"Coklat",   category:"Perkebunan", origin:"Lampung Timur",
+    description:"Komoditas kopi unggulan Lampung.",
+    longDescription:"Kopi Lampung dikenal luas dengan cita rasa khas, terutama Robusta.",
+    type:"Robusta, Arabika, Liberika",
+    harvestSeason:"Mei – September",
+    availability:"Tersedia sepanjang tahun (musiman panen)",
+    marketPotential:"Ekspor utama ke Eropa, Asia, dan Amerika",
+    exportStatus:"Sudah ekspor",
+    image:"assets/images/kopi.jpg",
+    gallery:["assets/images/kopi.jpg"] },
+
+  { id:"coklat",   name:"Coklat",   category:"Perkebunan", origin:"Lampung Timur",
+    slug:"coklat",
     productionAreas:["Lampung Timur","Lampung Selatan","Pesawaran"],
-    description:"Biji kakao Lampung dengan kualitas fermentasi baik.",
-    image:"assets/images/coklat.jpg" },
-  { slug:"jagung",   name:"Jagung",   category:"Pertanian", origin:"Lampung Selatan",
+    description:"Biji kakao Lampung dengan kualitas fermentasi yang baik.",
+    longDescription:"Kakao merupakan komoditas perkebunan dengan nilai jual tinggi.",
+    type:"Forastero, Trinitario",
+    harvestSeason:"Juni – Desember",
+    availability:"Musiman dengan penyimpanan",
+    marketPotential:"Industri coklat nasional dan ekspor",
+    exportStatus:"Berpotensi ekspor",
+    image:"assets/images/coklat.jpg",
+    gallery:["assets/images/coklat.jpg"] },
+
+  { id:"jagung",   name:"Jagung",   category:"Pertanian", origin:"Lampung Selatan",
+    slug:"jagung",
     productionAreas:["Lampung Selatan","Lampung Timur","Lampung Tengah"],
-    description:"Jagung Lampung pemasok utama pakan nasional.",
-    image:"assets/images/jagung.jpg" },
-  { slug:"singkong", name:"Singkong", category:"Pertanian", origin:"Lampung Tengah",
+    description:"Jagung Lampung pemasok utama kebutuhan pakan nasional.",
+    longDescription:"Jagung adalah komoditas pangan strategis yang banyak dibudidayakan di Lampung.",
+    type:"Jagung Hibrida, Jagung Pipil",
+    harvestSeason:"2–3 kali panen per tahun",
+    availability:"Tersedia sepanjang tahun",
+    marketPotential:"Industri pakan, pangan, dan ekspor",
+    exportStatus:"Sudah ekspor",
+    image:"assets/images/jagung.jpg",
+    gallery:["assets/images/jagung.jpg"] },
+
+  { id:"singkong", name:"Singkong", category:"Pertanian", origin:"Lampung Tengah",
+    slug:"singkong",
     productionAreas:["Lampung Tengah","Lampung Timur","Tulang Bawang"],
-    description:"Singkong Lampung kadar pati tinggi.",
-    image:"assets/images/singkong.jpg" },
-  { slug:"kelapa",   name:"Kelapa",   category:"Perkebunan", origin:"Pesisir Barat",
+    description:"Singkong Lampung dengan kadar pati tinggi.",
+    longDescription:"Singkong menjadi komoditas andalan Lampung dengan luas tanam besar.",
+    type:"Singkong Manis, Singkong Pahit",
+    harvestSeason:"8–12 bulan siklus tanam",
+    availability:"Tersedia sepanjang tahun",
+    marketPotential:"Industri tapioka, bioetanol, ekspor",
+    exportStatus:"Sudah ekspor (chip & pellet)",
+    image:"assets/images/singkong.jpg",
+    gallery:["assets/images/singkong.jpg"] },
+
+  { id:"kelapa",   name:"Kelapa",   category:"Perkebunan", origin:"Pesisir Barat",
+    slug:"kelapa",
     productionAreas:["Pesisir Barat","Lampung Selatan","Tanggamus"],
-    description:"Kelapa Lampung dengan kopra berkualitas.",
-    image:"assets/images/kelapa.jpg" },
-  { slug:"lada",     name:"Lada",     category:"Perkebunan", origin:"Lampung Utara",
+    description:"Kelapa Lampung dengan hasil kopra dan kelapa butir berkualitas baik.",
+    longDescription:"Kelapa merupakan komoditas perkebunan rakyat yang tumbuh baik di wilayah pesisir.",
+    type:"Kelapa Dalam, Kelapa Genjah",
+    harvestSeason:"Sepanjang tahun",
+    availability:"Tersedia sepanjang tahun",
+    marketPotential:"Industri kopra, minyak, dan ekspor",
+    exportStatus:"Berpotensi ekspor",
+    image:"assets/images/kelapa.jpg",
+    gallery:["assets/images/kelapa.jpg"] },
+
+  { id:"lada",     name:"Lada",     category:"Perkebunan", origin:"Lampung Utara",
+    slug:"lada",
     productionAreas:["Lampung Utara","Way Kanan","Tanggamus"],
-    description:"Lada hitam dan putih Lampung dengan aroma kuat.",
-    image:"assets/images/lada.jpg" },
+    description:"Lada hitam dan putih Lampung dengan cita rasa pedas khas.",
+    longDescription:"Lada Lampung telah lama dikenal sebagai salah satu komoditas rempah unggulan.",
+    type:"Lada Hitam, Lada Putih",
+    harvestSeason:"Juli – September",
+    availability:"Musiman",
+    marketPotential:"Ekspor utama ke Asia & Eropa",
+    exportStatus:"Sudah ekspor",
+    image:"assets/images/lada.jpg",
+    gallery:["assets/images/lada.jpg"] },
 ];
 
 for (const c of commodities) {
-  await setDoc(doc(db, "commodities", c.slug), c);
+  const { id, ...data } = c;
+  await setDoc(doc(db, "commodities", id), { ...data, createdAt: serverTimestamp() });
+  log("✓ commodity: " + id);
 }
 
 await setDoc(doc(db, "settings", "company"), {
@@ -43,19 +120,22 @@ await setDoc(doc(db, "settings", "company"), {
   address:"Bandar Lampung, Lampung, Indonesia",
   phone:"+62 xxx-xxxx-xxxx",
   email:"info@lampungcommodityhub.com",
-  whatsapp:"+62 xxx-xxxx-xxxx",
+  whatsapp:"+62 xxx-xxxx-xxxx"
 });
+log("✓ settings/company");
 
 await setDoc(doc(db, "settings", "owner"), {
   name:"Yusri Akmal",
   position:"Founder & CEO",
-  bio:"Berpengalaman di bidang agribisnis dan perdagangan komoditas.",
+  bio:"Berpengalaman di bidang agribisnis dan perdagangan komoditas. Berkomitmen mendigitalisasi potensi pertanian Lampung.",
   photo:"assets/images/owner.jpg",
   linkedin:"#",
   email:"yusri@lampungcommodityhub.com",
-  whatsapp:"+62 xxx-xxxx-xxxx",
+  whatsapp:"+62 xxx-xxxx-xxxx"
 });
+log("✓ settings/owner");
 
-alert("Seed selesai!");
+log("\n🎉 Selesai! Hapus file seed.html setelah ini.");
 </script>
-</body></html>
+</body>
+</html>

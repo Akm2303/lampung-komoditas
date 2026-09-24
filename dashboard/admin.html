@@ -1,10 +1,24 @@
-<!DOCTYPE html><html lang="id"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Admin Dashboard | Lampung Commodity Hub</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="../css/style.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-</head><body class="bg-slate-50">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: { brand: { 50:'#f0fdf4',800:'#166534',900:'#14532d' } },
+    fontFamily:{ sans:['Inter','sans-serif'], display:['Poppins','sans-serif'] },
+    boxShadow:{ soft:'0 6px 24px -8px rgba(15,23,42,.12)' }
+  }}
+}
+</script>
+<link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="bg-slate-50">
 <div class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
   <header class="flex flex-wrap items-center justify-between gap-3 rounded-2xl bg-white p-4 shadow-soft ring-1 ring-slate-100">
     <div>
@@ -21,7 +35,7 @@
     <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Petani</p><p id="statPetani" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
     <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Exportir</p><p id="statExp" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
     <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100"><p class="text-xs uppercase text-slate-500">Pemilik Lahan</p><p id="statLahan" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
-    <div class="rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 col-span-2 sm:col-span-1"><p class="text-xs uppercase text-slate-500">Komoditas</p><p id="statCom" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
+    <div class="col-span-2 rounded-2xl bg-white p-5 shadow-soft ring-1 ring-slate-100 sm:col-span-1"><p class="text-xs uppercase text-slate-500">Komoditas</p><p id="statCom" class="mt-2 font-display text-2xl font-bold text-brand-800">-</p></div>
   </section>
 
   <section class="mt-8 rounded-2xl bg-white shadow-soft ring-1 ring-slate-100">
@@ -34,7 +48,7 @@
     <div class="table-wrap p-2">
       <table>
         <thead><tr><th>Nama</th><th>Email</th><th>Telepon</th><th>Role</th><th>Status</th><th>Aksi</th></tr></thead>
-        <tbody id="userTable"><tr><td colspan="6" class="text-center text-slate-400 py-6">Memuat…</td></tr></tbody>
+        <tbody id="userTable"><tr><td colspan="6" class="text-center py-6 text-slate-400">Memuat…</td></tr></tbody>
       </table>
     </div>
   </section>
@@ -75,4 +89,5 @@ document.getElementById("btnLogout").onclick = async () => {
   location.href = "../login.html";
 };
 </script>
-</body></html>
+</body>
+</html>

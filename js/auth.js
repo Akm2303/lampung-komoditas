@@ -13,25 +13,23 @@ import {
 /* =========================================================
    Production authentication WAJIB memakai:
    - HTTPS
-   - Firebase Auth (sudah secure by default)
+   - Firebase Auth (secure by default)
    - Firestore Security Rules untuk role-based access
    ========================================================= */
 
-/** Ambil profil user (dokumen users/{uid}) */
 export async function getUserProfile(uid) {
   const snap = await getDoc(doc(db, "users", uid));
   return snap.exists() ? { id: snap.id, ...snap.data() } : null;
 }
 
-/** Register user baru + simpan profil ke Firestore */
 export async function registerUser({ name, phone, email, password, userType }) {
   const cred = await createUserWithEmailAndPassword(auth, email, password);
   await updateProfile(cred.user, { displayName: name });
 
   await setDoc(doc(db, "users", cred.user.uid), {
     name, phone, email,
-    role: "user",           // default
-    userType,               // Petani | Exportir | Pemilik Lahan
+    role: "user",
+    userType,
     status: "active",
     createdAt: serverTimestamp(),
   });
@@ -39,19 +37,16 @@ export async function registerUser({ name, phone, email, password, userType }) {
   return cred.user;
 }
 
-/** Login */
 export async function loginUser(email, password) {
   const cred = await signInWithEmailAndPassword(auth, email, password);
   const profile = await getUserProfile(cred.user.uid);
   return { user: cred.user, profile };
 }
 
-/** Logout */
 export async function logoutUser() {
   await signOut(auth);
 }
 
-/** Guard halaman dashboard */
 export function requireAuth(callback) {
   onAuthStateChanged(auth, async (user) => {
     if (!user) { location.href = "../login.html"; return; }
@@ -60,7 +55,6 @@ export function requireAuth(callback) {
   });
 }
 
-/** Guard dengan role tertentu */
 export function requireRole(roles, callback) {
   requireAuth((user, profile) => {
     if (!profile || !roles.includes(profile.role)) {
